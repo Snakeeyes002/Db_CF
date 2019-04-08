@@ -17,24 +17,21 @@ namespace UsersInRolesConsole
             Database.SetInitializer(new Initializer());
             UserContext context = new UserContext();
             Console.WriteLine(context.Users.First().UserName);
-            SqlParameter parameterProg = new SqlParameter("@FRoleName", "programmer");
-            SqlParameter parameterManag = new SqlParameter("@FRoleName", "manager");
-            string SqlQuery = "Select * From UserByRole(@FRoleName)";
-
+            SqlParameter parameterProg = new SqlParameter("roleName", "programmer");
+            SqlParameter parameterManag = new SqlParameter("@roleName", "manager");
+            string SqlQuery = "Select * From UsersByRole(@roleName)";
             try
             {
                 var TableOfUsers = context.Database.SqlQuery<UsersInRoleTable>(SqlQuery, parameterProg);
                 foreach (var user in TableOfUsers)
                 {
                     Console.WriteLine($"{user.UserName} {user.DateBirthday} {user.RoleName}");
-
                 }
                 Console.WriteLine();
                 TableOfUsers = context.Database.SqlQuery<UsersInRoleTable>(SqlQuery, parameterManag);
                 foreach (var user in TableOfUsers)
                 {
                     Console.WriteLine($"{user.UserName} {user.DateBirthday} {user.RoleName}");
-
                 }
                 Console.WriteLine();
             }
